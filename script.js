@@ -1,48 +1,3 @@
-const questions = [
-    {
-        id: 'generalHealth',
-        question: "Allmänt hälsotillstånd?",
-        answers: ["NEJ på fråga 1-3", "JA på fråga 2, NEJ på fråga 3"],
-        next: ["contactHealthCare", "bookAppointment"]
-    },
-    {
-        id: 'measles',
-        question: "Haft mässling/röda hund eller vacc. med två doser?",
-        answers: ["JA", "NEJ/Vet ej"],
-        next: ["noFurtherAction", "bookTeleconsult"]
-    },
-    {
-        id: 'chickenPox',
-        question: "Haft vattkoppor eller vacc. med två doser?",
-        answers: ["JA", "NEJ/Vet ej"],
-        next: ["noFurtherAction", "bookTeleconsult"]
-    },
-    {
-        id: 'skinMRSA',
-        question: "Hud och MRSA?",
-        answers: ["JA på fråga 1-2", "JA på fråga 3"],
-        next: ["testMRSA", "notEmployable"]
-    },
-    {
-        id: 'hepatitis',
-        question: "Hepatit?",
-        answers: ["JA på fråga 1", "JA på fråga 2 & 3 samt tre eller fler doser", "NEJ, Vet ej doser"],
-        next: ["infoAboutInfection", "noFurtherAction", "bookVaccination"]
-    },
-    {
-        id: 'diphtheria',
-        question: "Difteria?",
-        answers: ["JA på 'haft difteri' eller vaccinerad <20 år sedan", "NEJ, Vet ej, >20 år sedan påfyllnadsdos"],
-        next: ["noFurtherAction", "teleconsult", "bookVaccination"]
-    },
-    {
-        id: 'tuberculosis',
-        question: "Tuberkulos?",
-        answers: ["JA på fråga 1 eller 3, specifika omständigheter"],
-        next: ["bookTeleconsultICRA"]
-    }
-];
-
 const responses = {
     contactHealthCare: "Uppmana till kontakt på vårdcentral",
     bookAppointment: "Boka 30 min på FLÄK för bedömning av åtgärd",
@@ -56,52 +11,63 @@ const responses = {
     bookTeleconsultICRA: "Telefonråd, boka 30 min ordination FLÄK, boka IGRA-test"
 };
 
-let currentQuestionIndex = 0;
-let answers = [];
-
-function loadQuestion(questionIndex) {
-    const questionContainer = document.getElementById('questionContainer');
-    questionContainer.innerHTML = '';
-
-    if (questionIndex < questions.length) {
-        const questionObj = questions[questionIndex];
-        const questionElement = document.createElement('div');
-        questionElement.classList.add('question');
-        questionElement.innerHTML = `<p>${questionObj.question}</p>`;
-
-        questionObj.answers.forEach((answer, index) => {
-            const answerElement = document.createElement('button');
-            answerElement.textContent = answer;
-            answerElement.addEventListener('click', () => handleAnswer(questionIndex, index));
-            questionElement.appendChild(answerElement);
-        });
-
-        questionContainer.appendChild(questionElement);
-    } else {
-        showResponse();
-    }
-}
-
-function handleAnswer(questionIndex, answerIndex) {
-    answers.push(answerIndex);
-    const nextStep = questions[questionIndex].next[answerIndex];
-    if (responses[nextStep]) {
-        showResponse(nextStep);
-    } else {
-        currentQuestionIndex = questions.findIndex(q => q.id === nextStep);
-        loadQuestion(currentQuestionIndex);
-    }
-}
-
-function showResponse(responseKey) {
-    const responseDiv = document.getElementById('response');
-    responseDiv.textContent = responses[responseKey];
-    document.getElementById('submitButton').style.display = 'none';
-}
+const questionDescriptions = {
+    generalHealth: "Allmänt hälsotillstånd?",
+    measles: "Haft mässling/röda hund eller vacc. med två doser?",
+    chickenPox: "Haft vattkoppor eller vacc. med två doser?",
+    skinMRSA: "Hud och MRSA?",
+    hepatitis: "Hepatit?",
+    diphtheria: "Difteria?",
+    tuberculosis: "Tuberkulos?"
+};
 
 document.getElementById('healthForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    showResponse();
-});
 
-loadQuestion(currentQuestionIndex);
+    const generalHealth = document.getElementById('generalHealth').value;
+    const measles = document.getElementById('measles').value;
+    const chickenPox = document.getElementById('chickenPox').value;
+    const skinMRSA = document.getElementById('skinMRSA').value;
+    const hepatitis = document.getElementById('hepatitis').value;
+    const diphtheria = document.getElementById('diphtheria').value;
+    const tuberculosis = document.getElementById('tuberculosis').value;
+
+    let responseKey = '';
+    let reasons = [];
+
+    if (generalHealth === 'contactHealthCare') {
+        responseKey = 'contactHealthCare';
+        reasons.push(questionDescriptions.generalHealth + " NEJ på fråga 1-3");
+    } else if (generalHealth === 'bookAppointment') {
+        responseKey = 'bookAppointment';
+        reasons.push(questionDescriptions.generalHealth + " JA på fråga 2, NEJ på fråga 3");
+    } else if (measles === 'bookTeleconsult' || chickenPox === 'bookTeleconsult') {
+        responseKey = 'bookTeleconsult';
+        if (measles === 'bookTeleconsult') reasons.push(questionDescriptions.measles + " NEJ/Vet ej");
+        if (chickenPox === 'bookTeleconsult') reasons.push(questionDescriptions.chickenPox + " NEJ/Vet ej");
+    } else if (skinMRSA === 'testMRSA') {
+        responseKey = 'testMRSA';
+        reasons.push(questionDescriptions.skinMRSA + " JA på fråga 1-2");
+    } else if (skinMRSA === 'notEmployable') {
+        responseKey = 'notEmployable';
+        reasons.push(questionDescriptions.skinMRSA + " JA på fråga 3");
+    } else if (hepatitis === 'infoAboutInfection') {
+        responseKey = 'infoAboutInfection';
+        reasons.push(questionDescriptions.hepatitis + " JA på fråga 1");
+    } else if (hepatitis === 'bookVaccination') {
+        responseKey = 'bookVaccination';
+        reasons.push(questionDescriptions.hepatitis + " NEJ, Vet ej doser");
+    } else if (diphtheria === 'teleconsult') {
+        responseKey = 'teleconsult';
+        reasons.push(questionDescriptions.diphtheria + " NEJ, Vet ej, >20 år sedan påfyllnadsdos");
+    } else if (tuberculosis === 'bookTeleconsultICRA') {
+        responseKey = 'bookTeleconsultICRA';
+        reasons.push(questionDescriptions.tuberculosis + " JA på fråga 1 eller 3, specifika omständigheter");
+    } else {
+        responseKey = 'noFurtherAction';
+        reasons.push("Ingen ytterligare åtgärd behövs baserat på dina svar.");
+    }
+
+    const responseDiv = document.getElementById('response');
+    responseDiv.innerHTML = `<p>${responses[responseKey]}</p><p><strong>Baseras på dina svar:</strong><br>${reasons.join('<br>')}</p>`;
+});
