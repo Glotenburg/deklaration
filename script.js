@@ -24,6 +24,7 @@ const questionDescriptions = {
 document.getElementById('healthForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
+    // Retrieve values from form
     const generalHealth = document.getElementById('generalHealth').value;
     const measles = document.getElementById('measles').value;
     const chickenPox = document.getElementById('chickenPox').value;
@@ -35,6 +36,7 @@ document.getElementById('healthForm').addEventListener('submit', function(event)
     let responseKey = '';
     let reasons = [];
 
+    // Determine response based on form answers
     if (generalHealth === 'contactHealthCare') {
         responseKey = 'contactHealthCare';
         reasons.push(questionDescriptions.generalHealth + " NEJ på fråga 1-3");
@@ -68,6 +70,7 @@ document.getElementById('healthForm').addEventListener('submit', function(event)
         reasons.push("Ingen ytterligare åtgärd behövs baserat på dina svar.");
     }
 
+    // Display the response and reasons
     const responseDiv = document.getElementById('response');
     responseDiv.innerHTML = `<p>${responses[responseKey]}</p><p><strong>Baseras på dina svar:</strong><br>${reasons.join('<br>')}</p>`;
 });
