@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,63 +7,203 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Hälsodeklaration</h1>
-        <form id="healthForm">
-            <div class="question">
-                <label for="generalHealth">Allmänt hälsotillstånd?</label>
-                <select id="generalHealth" name="generalHealth" required>
-                    <option value="contactHealthCare">NEJ på fråga 1-3</option>
-                    <option value="bookAppointment">JA på fråga 2, NEJ på fråga 3</option>
-                </select>
-            </div>
-            <div class="question">
-                <label for="measles">Haft mässling/röda hund eller vacc. med två doser?</label>
-                <select id="measles" name="measles" required>
-                    <option value="noFurtherAction">JA</option>
-                    <option value="bookTeleconsult">NEJ/Vet ej</option>
-                </select>
-            </div>
-            <div class="question">
-                <label for="chickenPox">Haft vattkoppor eller vacc. med två doser?</label>
-                <select id="chickenPox" name="chickenPox" required>
-                    <option value="noFurtherAction">JA</option>
-                    <option value="bookTeleconsult">NEJ/Vet ej</option>
-                </select>
-            </div>
-            <div class="question">
-                <label for="skinMRSA">Hud och MRSA?</label>
-                <select id="skinMRSA" name="skinMRSA" required>
-                    <option value="testMRSA">JA på fråga 1-2</option>
-                    <option value="notEmployable">JA på fråga 3</option>
-                </select>
-            </div>
-            <div class="question">
-                <label for="hepatitis">Hepatit?</label>
-                <select id="hepatitis" name="hepatitis" required>
-                    <option value="infoAboutInfection">JA på fråga 1</option>
-                    <option value="noFurtherAction">JA på fråga 2 & 3 samt tre eller fler doser</option>
-                    <option value="bookVaccination">NEJ, Vet ej doser</option>
-                </select>
-            </div>
-            <div class="question">
-                <label for="diphtheria">Difteria?</label>
-                <select id="diphtheria" name="diphtheria" required>
-                    <option value="noFurtherAction">JA på 'haft difteri' eller vaccinerad <20 år sedan</option>
-                    <option value="teleconsult">NEJ, Vet ej, >20 år sedan påfyllnadsdos</option>
-                    <option value="bookVaccination">bookVaccination</option>
-                </select>
-            </div>
-            <div class="question">
-                <label for="tuberculosis">Tuberkulos?</label>
-                <select id="tuberculosis" name="tuberculosis" required>
-                    <option value="bookTeleconsultICRA">JA på fråga 1 eller 3, specifika omständigheter</option>
-                </select>
-            </div>
-            <button type="submit">Submit</button>
-        </form>
-        <div id="response" class="response"></div>
-    </div>
+    <h1>Hälsodeklaration</h1>
+    <form id="healthForm">
+        <section>
+            <h2>Personuppgifter</h2>
+            <label for="name">Namn:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="personNumber">Personnummer:</label>
+            <input type="text" id="personNumber" name="personNumber" required>
+
+            <label for="address">Adress:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="postalCode">Postnummer och postort:</label>
+            <input type="text" id="postalCode" name="postalCode" required>
+
+            <label for="email">E-post:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Telefon:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="occupation">Yrkesroll:</label>
+            <input type="text" id="occupation" name="occupation" required>
+
+            <label for="workplace">Arbetsplats:</label>
+            <input type="text" id="workplace" name="workplace" required>
+        </section>
+
+        <section>
+            <h2>Allmän hälsa</h2>
+            <label for="feelHealthy">Känner du dig frisk?</label>
+            <select id="feelHealthy" name="feelHealthy" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="recentIssues">Har du under de senaste 6 månaderna haft långdragen feber, långvarig hosta eller ofrivilligt gått ner i vikt?</label>
+            <select id="recentIssues" name="recentIssues" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="soughtCare">Om ja – har du sökt vård för detta?</label>
+            <select id="soughtCare" name="soughtCare">
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+                <option value="notApplicable">Inte tillämpligt</option>
+            </select>
+        </section>
+
+        <section>
+            <h2>Sjukdomshistorik och vaccinationer</h2>
+            <label for="hadMeasles">Har du haft mässling?</label>
+            <select id="hadMeasles" name="hadMeasles" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="measlesVaccination">Vaccination mässling:</label>
+            <select id="measlesVaccination" name="measlesVaccination" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="hadRubella">Röda hund:</label>
+            <select id="hadRubella" name="hadRubella" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="rubellaVaccination">Vaccination Röda hund:</label>
+            <select id="rubellaVaccination" name="rubellaVaccination" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="vaccineDoses">Om vaccinerad, antal doser:</label>
+            <input type="number" id="vaccineDoses" name="vaccineDoses" min="0">
+
+            <label for="hadChickenpox">Vattkoppor:</label>
+            <select id="hadChickenpox" name="hadChickenpox" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="chickenpoxVaccination">Vaccination vattkoppor:</label>
+            <select id="chickenpoxVaccination" name="chickenpoxVaccination" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="chickenpoxDoses">Om vaccinerad, antal doser mot vattkoppor:</label>
+            <input type="number" id="chickenpoxDoses" name="chickenpoxDoses" min="0">
+        </section>
+
+        <section>
+            <h2>MRSA och hudinfektioner</h2>
+            <label for="mrsaCarrier">Bärarskap MRSA:</label>
+            <select id="mrsaCarrier" name="mrsaCarrier" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="skinInfection">Hud infektion, om ja – var:</label>
+            <input type="text" id="skinInfection" name="skinInfection">
+
+            <label for="mrsaOutsideNordics">Hud MRSA – utanför Norden senaste 6 mån?</label>
+            <select id="mrsaOutsideNordics" name="mrsaOutsideNordics" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+        </section>
+
+        <section>
+            <h2>Hepatit</h2>
+            <label for="hepatitis">Hepatit:</label>
+            <select id="hepatitis" name="hepatitis" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="hepatitisB_vaccination">Vaccination Hepatit B:</label>
+            <select id="hepatitisB_vaccination" name="hepatitisB_vaccination" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="hepatitis_doses">Hepatit – antal doser:</label>
+            <input type="number" id="hepatitis_doses" name="hepatitis_doses" min="0">
+        </section>
+
+        <section>
+            <h2>Tuberkulos</h2>
+            <label for="tuberculosisTreatment">Har du blivit behandlad mot tuberkulos?</label>
+            <select id="tuberculosisTreatment" name="tuberculosisTreatment" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="latentTuberculosisTested">Latent Tuberkulos: testad:</label>
+            <select id="latentTuberculosisTested" name="latentTuberculosisTested" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="tuberculosisContact">Nära kontakt tuberkulos:</label>
+            <select id="tuberculosisContact" name="tuberculosisContact" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+        </section>
+
+        <section>
+            <h2>Övrigt</h2>
+            <label for="countryOfBirth">Födelseland:</label>
+            <input type="text" id="countryOfBirth" name="countryOfBirth" required>
+
+            <label for="travelAbroad">Utlandsvistelse:</label>
+            <input type="text" id="travelAbroad" name="travelAbroad">
+
+            <label for="diphtheriaVaccination">Vaccination difteri:</label>
+            <select id="diphtheriaVaccination" name="diphtheriaVaccination" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+
+            <label for="diphtheriaBooster">Påfyllnadsdos difteri:</label>
+            <select id="diphtheriaBooster" name="diphtheriaBooster" required>
+                <option value="">Välj ett alternativ</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nej</option>
+            </select>
+        </section>
+
+        <button type="submit">Skicka</button>
+    </form>
+
+    <div id="result"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
